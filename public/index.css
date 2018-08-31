@@ -1,0 +1,34 @@
+#croppie-result {
+  position: absolute;
+  left: 30%;
+  top: 10%;
+  width: 40%;
+  height: 80%;
+  z-index: 1;
+
+  background: #fff;
+  border: 1px solid black;
+  border-radius: 0.5em;
+}
+
+.result {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.is-hidden {
+  display: none;
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+
+  background: grey;
+  opacity: 0.5;
+}

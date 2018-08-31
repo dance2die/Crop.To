@@ -1,6 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React, { Component, Fragment } from "react";
+import ReactDOM, { createPortal } from "react-dom";
 import { Croppie } from "croppie";
+import Dropzone from "react-dropzone";
 
 import "./styles.css";
 
@@ -9,7 +10,7 @@ const croppieOptions = {
   enableOrientation: true,
   mouseWheelZoom: "ctrl",
   viewport: {
-    width: 300,
+    width: 150,
     height: 200,
     type: "square"
   },
@@ -19,47 +20,133 @@ const croppieOptions = {
   }
 };
 
-const croppie = document.getElementById("croppie");
-const c = new Croppie(croppie, croppieOptions);
+const croppieRoot = document.getElementById("croppie-root");
+const croppieResult = document.getElementById("croppie-result");
 
-class App extends React.Component {
-  state = {
-    croppedImage: null,
-    isFileUploaded: false
-  };
+class CroppieResult extends Component {
+  constructor(props) {
+    super(props);
+    this.el = document.createElement("div");
+  }
 
-  file = React.createRef();
-  croppie = React.createRef();
-  img = React.createRef();
+  componentDidMount() {
+    croppieResult.appendChild(this.el);
+  }
 
-  onFileUpload = e => {
-    this.setState({ isFileUploaded: true }, () => {
-      const reader = new FileReader();
-      const file = this.file.current.files[0];
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        c.bind({ url: reader.result });
-      };
-      reader.onerror = function(error) {
-        console.log("Error: ", error);
-      };
-    });
-  };
+  componentWillUnmount() {
+    croppieResult.removeChild(this.el);
+  }
 
-  onResult = e => {
-    c.result("base64").then(base64 => {
-      this.setState(
-        { croppedImage: base64 },
-        () => (this.img.current.src = base64)
-      );
+  render() {
+    const { image } = this.props;
+    if (!image) return null;
+
+    croppieResult.classList.remove("is-hidden");
+
+    return ReactDOM.createPortal(
+      <div className="result">
+        <img src={image} alt="cropped from croppie" />
+        <a hidden={!image} href={image} download="cropped.png">
+          Download Cropped Image
+        </a>
+      </div>,
+      this.el
+    );
+  }
+}
+
+class CroppieContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.el = document.createElement("div");
+    this.el.id = "croppie";
+    this.croppie = new Croppie(this.el, croppieOptions);
+  }
+
+  componentDidMount() {
+    croppieRoot.classList.remove("is-hidden");
+    croppieRoot.appendChild(this.el);
+  }
+
+  componentWillUnmount() {
+    croppieRoot.classList.add("is-hidden");
+    croppieRoot.removeChild(this.el);
+  }
+
+  onCrop = () => {
+    this.croppie.result("base64").then(croppedImage => {
+      this.props.onCrop(croppedImage);
     });
   };
 
   render() {
-    const { isFileUploaded, croppedImage } = this.state;
+    const { image } = this.props;
+    if (!image) return null;
+
+    this.croppie.bind({ url: image });
+
+    return ReactDOM.createPortal(
+      // this.props.children({ value: "some value" }),
+      <div>
+        <button type="button" onClick={this.onCrop}>
+          Crop!
+        </button>
+      </div>,
+      this.el
+    );
+  }
+}
+
+class App extends Component {
+  state = {
+    croppedImage: null,
+    // isFileUploaded: false,
+    uploadedImage: null
+  };
+
+  file = React.createRef();
+  img = React.createRef();
+
+  componentDidCatch(err, info) {
+    console.log(`App caught`, err, info);
+  }
+
+  onFileUpload = e => {
+    const reader = new FileReader();
+    const file = this.file.current.files[0];
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      // c.bind({ url: reader.result });
+      // console.log(`reader.result`, reader.result);
+      this.setState({ uploadedImage: reader.result });
+    };
+    reader.onerror = function(error) {
+      console.log("Error: ", error);
+    };
+  };
+
+  onCrop = croppedImage => {
+    this.setState({ croppedImage }, () =>
+      console.log(`App.onCrop.croppedImage`)
+    );
+  };
+
+  render() {
+    const { uploadedImage, croppedImage } = this.state;
 
     return (
       <div className="App">
+        {croppedImage && <div className="backdrop" />}
+        {/*
+          uploadedImage && (
+          <CroppieContainer image={uploadedImage} onCrop={this.onCrop}>
+            {value => console.log(`value from croppie`, value)}
+          </CroppieContainer>
+        )*/}
+        <CroppieContainer image={uploadedImage} onCrop={this.onCrop}>
+          {value => console.log(`value from croppie`, value)}
+        </CroppieContainer>
+
         <input
           type="file"
           id="files"
@@ -67,25 +154,12 @@ class App extends React.Component {
           onChange={this.onFileUpload}
         />
         <hr />
-        <button
-          type="button"
-          disabled={!isFileUploaded}
-          onClick={this.onResult}
-        >
-          Crop!
-        </button>
-        <hr />
-        <h2> Result! </h2>
-        <div>
-          <img ref={this.img} alt="cropped image" />
-          <a hidden={!croppedImage} href={croppedImage} download="cropped.png">
-            Download Cropped Image
-          </a>
-        </div>
+        <h2> Cropped Result! </h2>
+        <div>{croppedImage && <CroppieResult image={croppedImage} />}</div>
       </div>
     );
   }
 }
 
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById("app-root");
 ReactDOM.render(<App />, rootElement);
