@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import ReactDOM, { createPortal } from "react-dom";
 import { Croppie } from "croppie";
-import Dropzone from "react-dropzone";
 
 import "./styles.css";
 
