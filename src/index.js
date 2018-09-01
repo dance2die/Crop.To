@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
-import ReactDOM, { createPortal } from "react-dom";
+import ReactDOM from "react-dom";
 import { Croppie } from "croppie";
+import styled from "styled-components";
+import Popup from "reactjs-popup";
 
 import "./styles.css";
 
@@ -8,103 +10,111 @@ const croppieOptions = {
   showZoomer: true,
   enableOrientation: true,
   mouseWheelZoom: "ctrl",
+  enableResize: true,
   viewport: {
     width: 150,
     height: 200,
     type: "square"
   },
   boundary: {
-    width: "50vw",
-    height: "50vh"
+    width: "75vw",
+    height: "75vh"
   }
 };
 
-const croppieRoot = document.getElementById("croppie-root");
-const croppieResult = document.getElementById("croppie-result");
-
-class CroppieResult extends Component {
-  constructor(props) {
-    super(props);
-    this.el = document.createElement("div");
-  }
-
-  componentDidMount() {
-    croppieResult.appendChild(this.el);
-  }
-
-  componentWillUnmount() {
-    croppieResult.removeChild(this.el);
-  }
-
-  render() {
-    const { image } = this.props;
-    if (!image) return null;
-
-    croppieResult.classList.remove("is-hidden");
-
-    return ReactDOM.createPortal(
-      <div className="result">
-        <img src={image} alt="cropped from croppie" />
-        <a hidden={!image} href={image} download="cropped.png">
-          Download Cropped Image
-        </a>
-      </div>,
-      this.el
-    );
-  }
-}
+const ResultContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
 
 class CroppieContainer extends Component {
   constructor(props) {
     super(props);
-    this.el = document.createElement("div");
-    this.el.id = "croppie";
-    this.croppie = new Croppie(this.el, croppieOptions);
+
+    this.state = {
+      croppedImage: null
+    };
+
+    // To check if we need to rebind Croppie after cropping.
+    this.currentImage = null;
   }
 
   componentDidMount() {
-    croppieRoot.classList.remove("is-hidden");
-    croppieRoot.appendChild(this.el);
+    this.croppie = new Croppie(this.props.parent.current, croppieOptions);
   }
 
   componentWillUnmount() {
-    croppieRoot.classList.add("is-hidden");
-    croppieRoot.removeChild(this.el);
+    delete this.croppie;
   }
 
   onCrop = () => {
     this.croppie.result("base64").then(croppedImage => {
-      this.props.onCrop(croppedImage);
+      // console.log("cropppppppped!!!", croppedImage.length);
+      this.setState({ croppedImage });
     });
+  };
+
+  onClose = () => {
+    this.setState({ croppedImage: null });
   };
 
   render() {
     const { image } = this.props;
+    const { croppedImage, currentImage } = this.state;
     if (!image) return null;
 
-    this.croppie.bind({ url: image });
+    if (image !== this.currentImage) {
+      // console.log(`binding again!`);
+      this.currentImage = image;
+      this.croppie.bind({ url: image });
+    }
 
-    return ReactDOM.createPortal(
-      // this.props.children({ value: "some value" }),
+    return (
       <div>
-        <button type="button" onClick={this.onCrop}>
-          Crop!
+        <button type="button" onClick={this.onCrop} className="button">
+          Croppp!
         </button>
-      </div>,
-      this.el
+        <Popup modal open={croppedImage !== null} onClose={this.onClose}>
+          {close => (
+            <div className="modal">
+              <a className="close" onClick={close}>
+                &times;
+              </a>
+              <div className="header"> Modal Title </div>
+              <div className="content">
+                <ResultContainer>
+                  <img src={croppedImage} alt="cropped from croppie" />
+                </ResultContainer>
+              </div>
+              <div className="actions">
+                <a
+                  hidden={!croppedImage}
+                  href={croppedImage}
+                  download="cropped.png"
+                >
+                  Download
+                </a>
+                <button className="button" onClick={() => close()}>
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
+        </Popup>
+      </div>
     );
   }
 }
 
 class App extends Component {
   state = {
-    croppedImage: null,
-    // isFileUploaded: false,
     uploadedImage: null
   };
 
   file = React.createRef();
   img = React.createRef();
+  croppie = React.createRef();
 
   componentDidCatch(err, info) {
     console.log(`App caught`, err, info);
@@ -114,37 +124,23 @@ class App extends Component {
     const reader = new FileReader();
     const file = this.file.current.files[0];
     reader.readAsDataURL(file);
+
     reader.onload = () => {
-      // c.bind({ url: reader.result });
-      // console.log(`reader.result`, reader.result);
       this.setState({ uploadedImage: reader.result });
     };
-    reader.onerror = function(error) {
+    reader.onerror = error => {
       console.log("Error: ", error);
     };
   };
 
-  onCrop = croppedImage => {
-    this.setState({ croppedImage }, () =>
-      console.log(`App.onCrop.croppedImage`)
-    );
-  };
-
   render() {
-    const { uploadedImage, croppedImage } = this.state;
+    const { uploadedImage } = this.state;
 
     return (
       <div className="App">
-        {croppedImage && <div className="backdrop" />}
-        {/*
-          uploadedImage && (
-          <CroppieContainer image={uploadedImage} onCrop={this.onCrop}>
-            {value => console.log(`value from croppie`, value)}
-          </CroppieContainer>
-        )*/}
-        <CroppieContainer image={uploadedImage} onCrop={this.onCrop}>
-          {value => console.log(`value from croppie`, value)}
-        </CroppieContainer>
+        {/*<CroppieContainer image={uploadedImage} /> */}
+        <div id="croppie-root" ref={this.croppie} />
+        <CroppieContainer parent={this.croppie} image={uploadedImage} />
 
         <input
           type="file"
@@ -152,9 +148,6 @@ class App extends Component {
           ref={this.file}
           onChange={this.onFileUpload}
         />
-        <hr />
-        <h2> Cropped Result! </h2>
-        <div>{croppedImage && <CroppieResult image={croppedImage} />}</div>
       </div>
     );
   }

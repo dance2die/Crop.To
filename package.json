@@ -1,5 +1,5 @@
 {
-  "name": "croppie-to-crop-uploaded-base64-image-with-portal",
+  "name": "croppie-to-crop-uploaded-base64-image-without-portal",
   "version": "1.0.0",
   "description": "",
   "keywords": [],
@@ -8,7 +8,9 @@
     "croppie": "2.6.2",
     "react": "16.4.2",
     "react-dom": "16.4.2",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "reactjs-popup": "1.2.0",
+    "styled-components": "3.4.5"
   },
   "devDependencies": {},
   "scripts": {
