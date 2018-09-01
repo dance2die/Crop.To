@@ -37,6 +37,7 @@ class CroppieContainer extends Component {
     };
 
     // To check if we need to rebind Croppie after cropping.
+    // This is required for Croppie not being a React component
     this.currentImage = null;
   }
 
@@ -141,6 +142,7 @@ class App extends Component {
 
         <input
           type="file"
+          accept="image/*"
           id="files"
           ref={this.file}
           onChange={this.onFileUpload}
