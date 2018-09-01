@@ -12,20 +12,38 @@ const croppieOptions = {
   mouseWheelZoom: "ctrl",
   enableResize: true,
   viewport: {
-    width: 150,
-    height: 200,
+    // Dev.to recommends 1000x420
+    // But Croppie is off by 4px
+    width: 996,
+    height: 416,
     type: "square"
   },
   boundary: {
-    width: "75vw",
+    width: "99vw",
     height: "75vh"
   }
 };
 
-const ResultContainer = styled.div`
-  position: relative;
+const StyledPopup = styled(Popup).attrs({
+  modal: true,
+  open: props => props.open,
+  onClose: props => props.onClose
+})`
+`;
+
+const PopupContent = styled.div.attrs({
+  className: "popup-content"
+})`
   width: 100%;
-  height: 100%;
+`;
+
+const CroppedImageContainer = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const CroppedImage = styled.img`
+  width: 50vh;
 `;
 
 class CroppieContainer extends Component {
@@ -74,18 +92,18 @@ class CroppieContainer extends Component {
         <button type="button" onClick={this.onCrop} className="button">
           Croppp!
         </button>
-        <Popup modal open={croppedImage !== null} onClose={this.onClose}>
+        <StyledPopup modal open={croppedImage !== null} onClose={this.onClose}>
           {close => (
             <div className="modal">
               <a className="close" onClick={close}>
                 &times;
               </a>
               <div className="header"> Modal Title </div>
-              <div className="content">
-                <ResultContainer>
-                  <img src={croppedImage} alt="cropped from croppie" />
-                </ResultContainer>
-              </div>
+              <PopupContent>
+                <CroppedImageContainer>
+                  <CroppedImage src={croppedImage} alt="cropped from croppie" />
+                </CroppedImageContainer>
+              </PopupContent>
               <div className="actions">
                 <a
                   hidden={!croppedImage}
@@ -100,7 +118,7 @@ class CroppieContainer extends Component {
               </div>
             </div>
           )}
-        </Popup>
+        </StyledPopup>
       </div>
     );
   }
