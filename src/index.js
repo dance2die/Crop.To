@@ -50,7 +50,6 @@ class CroppieContainer extends Component {
 
   onCrop = () => {
     this.croppie.result("base64").then(croppedImage => {
-      // console.log("cropppppppped!!!", croppedImage.length);
       this.setState({ croppedImage });
     });
   };
@@ -65,7 +64,6 @@ class CroppieContainer extends Component {
     if (!image) return null;
 
     if (image !== this.currentImage) {
-      // console.log(`binding again!`);
       this.currentImage = image;
       this.croppie.bind({ url: image });
     }
@@ -138,7 +136,6 @@ class App extends Component {
 
     return (
       <div className="App">
-        {/*<CroppieContainer image={uploadedImage} /> */}
         <div id="croppie-root" ref={this.croppie} />
         <CroppieContainer parent={this.croppie} image={uploadedImage} />
 
