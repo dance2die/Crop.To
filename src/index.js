@@ -6,6 +6,8 @@ import Popup from "reactjs-popup";
 
 import "./styles.css";
 
+import Credit from "./components/Credit";
+
 const croppieOptions = {
   showZoomer: true,
   enableOrientation: true,
@@ -155,16 +157,22 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div id="croppie-root" ref={this.croppie} />
-        <CroppieContainer parent={this.croppie} image={uploadedImage} />
+        <head />
+        <section>
+          <div id="croppie-root" ref={this.croppie} />
+          <CroppieContainer parent={this.croppie} image={uploadedImage} />
 
-        <input
-          type="file"
-          accept="image/*"
-          id="files"
-          ref={this.file}
-          onChange={this.onFileUpload}
-        />
+          <input
+            type="file"
+            accept="image/*"
+            id="files"
+            ref={this.file}
+            onChange={this.onFileUpload}
+          />
+        </section>
+        <footer>
+          <Credit />
+        </footer>
       </div>
     );
   }
