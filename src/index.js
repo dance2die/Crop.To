@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 import styled, { injectGlobal } from "styled-components";
-import { Input } from "rebass-next";
+import { Box, Input } from "rebass-next";
 
 import "./styles.css";
 
@@ -28,7 +28,7 @@ const AppContainer = styled.div`
   flex-direction: column;
 
   // prettier-ignore
-  & > header, section, footer {
+  & > div {
     text-align: center;
     color: black;
     font-family: sans-serif;
@@ -39,17 +39,17 @@ const AppContainer = styled.div`
   }
 `;
 
-const Header = styled.header`
+const Header = styled(Box)`
   background: blue;
   align-content: stretch;
-  height: 3em;
+  height: 5.5em;
 `;
-const Content = styled.section`
+const Content = styled(Box)`
   background: red;
   align-items: center;
   flex: 1;
 `;
-const Footer = styled.footer`
+const Footer = styled(Box)`
   background: gold;
   align-content: stretch;
   height: 3em;
@@ -75,9 +75,6 @@ class App extends Component {
   }
 
   onFileUpload = e => {
-    // e.persist();
-    // console.log(`onFileUpload.e.target`, e.target.files);
-
     const reader = new FileReader();
     const file = e.target.files[0];
     reader.readAsDataURL(file);

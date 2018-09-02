@@ -2,9 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const CreditContainer = styled.div`
-  // display: flex;
-  // flex-direction: row;
-  // justify-content: flex-start;
+  font-size: 0.8rem;
 `;
 
 const CreditLink = styled.a`
