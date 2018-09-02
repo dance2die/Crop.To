@@ -9,7 +9,7 @@ const TitleContainer = styled(Heading)`
 `;
 
 const Title = () => (
-  <TitleContainer fontSize={3}>Crop Files by 1000x420</TitleContainer>
+  <TitleContainer fontSize={3}>Crop Image 1000x420</TitleContainer>
 );
 
 export default Title;
