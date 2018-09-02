@@ -9,6 +9,7 @@
     "prop-types": "15.6.2",
     "react": "16.4.2",
     "react-dom": "16.4.2",
+    "react-dropzone": "5.0.1",
     "react-scripts": "1.1.4",
     "reactjs-popup": "1.2.0",
     "rebass-next": "2.0.2",

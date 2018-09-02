@@ -1,7 +1,8 @@
-import React, { Component, Fragment } from "react";
+import React, { createRef, Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 import styled, { injectGlobal, ThemeProvider } from "styled-components";
-import { Box, Input } from "rebass-next";
+import { Box, Input, Button } from "rebass-next";
+import Dropzone from "react-dropzone";
 
 import { theme, getDefaultFontFamily } from "./theme";
 import Title from "./components/Title";
@@ -74,7 +75,8 @@ const CroppieRoot = styled.div.attrs({
   flex-direction: column;
 `;
 
-const UploadButton = styled(Input)`
+// const UploadButton = styled(Input)`
+const UploadButton = styled(Button)`
   ${getDefaultFontFamily};
 `;
 
@@ -83,19 +85,23 @@ class App extends Component {
     uploadedImage: null
   };
 
-  img = React.createRef();
-  croppie = React.createRef();
+  img = createRef();
+  croppie = createRef();
+  dropzone = createRef();
 
   componentDidCatch(err, info) {
     console.log(`App caught`, err, info);
   }
 
-  onFileUpload = e => {
+  onFileUpload = files => {
+    if (!files) return;
+
     const reader = new FileReader();
-    const file = e.target.files[0];
+    const file = files[0];
     reader.readAsDataURL(file);
 
     reader.onload = () => {
+      console.log(`onFileUpload.onload.reader.result`, reader.result.length);
       this.setState({ uploadedImage: reader.result });
     };
     reader.onerror = error => {
@@ -112,18 +118,45 @@ class App extends Component {
           <Title />
         </Header>
         <Content>
-          <CroppieRoot id="croppie-root" innerRef={this.croppie} />
+          <CroppieRoot
+            style={{ display: uploadedImage ? "inherit" : "none" }}
+            id="croppie-root"
+            innerRef={this.croppie}
+          />
           <CroppieWrapper parent={this.croppie} image={uploadedImage} />
+          <Dropzone
+            accept="image/*"
+            hidden={uploadedImage}
+            ref={node => {
+              this.dropzone = node;
+            }}
+            onDrop={(accepted, rejected) => {
+              this.onFileUpload(accepted);
+            }}
+          >
+            <p>Drop files here.</p>
+          </Dropzone>
 
           <UploadButton
+            type="button"
+            accept="image/*"
+            mt={2}
+            onClick={() => {
+              this.dropzone.open();
+            }}
+          >
+            Open File Dialog
+          </UploadButton>
+
+          {/*<UploadButton
             fontFamily="sans"
             type="file"
             accept="image/*"
             id="files"
             width="auto"
             ml="8em"
-            onChange={this.onFileUpload}
-          />
+            onChange={e => this.onFileUpload(e.target.files)}
+          />*/}
         </Content>
         <Footer>
           <Credit />
