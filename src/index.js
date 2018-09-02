@@ -116,9 +116,13 @@ const acceptStyle = { backgroundColor: "hsl(120, 100%, 80%)" };
 const rejectStyle = { backgroundColor: "hsl(360, 100%, 50%)" };
 
 const DropzoneContent = styled.p`
-  font-size: 2em;
   ${getDefaultFontFamily};
   display: ${props => (props.display ? "block" : "none")}
+  font-size: 4em;
+
+  @media (max-width: 699px) {
+    font-size: 2em;
+  }
 `;
 
 class App extends Component {
