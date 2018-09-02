@@ -16,9 +16,9 @@ const StyledPopup = styled(Popup).attrs({
   ${getDefaultFontFamily};
 
   // https://www.cssmatic.com/box-shadow
-  -webkit-box-shadow: 10px 10px 149px -3px rgb(12, 87, 255);
-  -moz-box-shadow: 10px 10px 149px -3px rgb(12, 87, 255);
-  box-shadow: 10px 10px 149px -3px rgb(12, 87, 255);
+  -webkit-box-shadow: 10px 10px 149px -3px rgba(255, 12, 12, 0.48);
+  -moz-box-shadow: 10px 10px 149px -3px rgba(255, 12, 12, 0.48);
+  box-shadow: 10px 10px 149px -3px rgba(255, 12, 12, 0.48);
 `;
 
 const PopupContainer = styled(Card)`
