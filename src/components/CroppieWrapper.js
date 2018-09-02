@@ -5,8 +5,6 @@ import { Button } from "rebass-next";
 
 import CroppiePopup from "./Popup";
 
-import { getDefaultFontFamily } from "../theme";
-
 const croppieOptions = {
   showZoomer: true,
   enableOrientation: true,

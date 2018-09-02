@@ -1,6 +1,6 @@
 import React, { createRef, Component, Fragment } from "react";
 import ReactDOM from "react-dom";
-import styled, { injectGlobal, ThemeProvider } from "styled-components";
+import styled, { injectGlobal, ThemeProvider, css } from "styled-components";
 import { Box, Input, Button } from "rebass-next";
 import Dropzone from "react-dropzone";
 
@@ -80,6 +80,33 @@ const UploadButton = styled(Button)`
   ${getDefaultFontFamily};
 `;
 
+// const dropZoneStyle = css`
+//   width: 100%;
+//   height: 100%;
+
+//   border: 1px dotted red;
+//   border: 5px dashed black;
+//   display: ${props => (props.show ? "flex" : "hidden")};
+//   align-items: center;
+//   justify-content: center;
+// `;
+
+const dropZoneStyle = {
+  width: "90%",
+  height: "90%",
+  marginTop: "1em",
+
+  border: "5px dashed black",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center"
+};
+
+const DropZoneContent = styled.p`
+  font-size: 2em;
+  ${getDefaultFontFamily};
+`;
+
 class App extends Component {
   state = {
     uploadedImage: null
@@ -101,7 +128,6 @@ class App extends Component {
     reader.readAsDataURL(file);
 
     reader.onload = () => {
-      console.log(`onFileUpload.onload.reader.result`, reader.result.length);
       this.setState({ uploadedImage: reader.result });
     };
     reader.onerror = error => {
@@ -125,6 +151,8 @@ class App extends Component {
           />
           <CroppieWrapper parent={this.croppie} image={uploadedImage} />
           <Dropzone
+            style={dropZoneStyle}
+            // show={!uploadedImage}
             accept="image/*"
             hidden={uploadedImage}
             ref={node => {
@@ -134,13 +162,13 @@ class App extends Component {
               this.onFileUpload(accepted);
             }}
           >
-            <p>Drop files here.</p>
+            <DropZoneContent>Drop files here</DropZoneContent>
           </Dropzone>
 
           <UploadButton
             type="button"
             accept="image/*"
-            mt={2}
+            my={2}
             onClick={() => {
               this.dropzone.open();
             }}
