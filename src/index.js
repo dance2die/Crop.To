@@ -75,7 +75,12 @@ const CroppieRoot = styled.div.attrs({
   flex-direction: column;
 `;
 
-const UploadButton = styled(Button)`
+const UploadButton = styled(Button).attrs({
+  onClick: props => props.onClick,
+  type: "button",
+  accept: "image/*",
+  my: 2
+})`
   ${getDefaultFontFamily};
 `;
 
@@ -187,26 +192,9 @@ class App extends Component {
             }}
           </Dropzone>
 
-          <UploadButton
-            type="button"
-            accept="image/*"
-            my={2}
-            onClick={() => {
-              this.dropzone.open();
-            }}
-          >
+          <UploadButton onClick={() => this.dropzone.open()}>
             Open File Dialog
           </UploadButton>
-
-          {/*<UploadButton
-            fontFamily="sans"
-            type="file"
-            accept="image/*"
-            id="files"
-            width="auto"
-            ml="8em"
-            onChange={e => this.onFileUpload(e.target.files)}
-          />*/}
         </Content>
         <Footer>
           <Credit />
