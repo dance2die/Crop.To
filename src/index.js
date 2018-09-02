@@ -1,6 +1,6 @@
-import React, { createRef, Component, Fragment } from "react";
+import React, { createRef, Component } from "react";
 import ReactDOM from "react-dom";
-import styled, { injectGlobal, ThemeProvider, css } from "styled-components";
+import styled, { injectGlobal, ThemeProvider } from "styled-components";
 import { Box, Input, Button } from "rebass-next";
 import Dropzone from "react-dropzone";
 
@@ -33,7 +33,7 @@ const AppContainer = styled.div`
 
   & > div {
     text-align: center;
-    color: black;
+    color: #999;
     font-family: sans-serif;
 
     display: flex;
