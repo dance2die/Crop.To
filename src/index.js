@@ -168,7 +168,7 @@ class App extends Component {
               this.onFileUpload(accepted);
             }}
           >
-            {({ isDragActive, isDragReject, acceptedFiles, rejectedFiles }) => {
+            {({ isDragActive, isDragReject }) => {
               if (isDragReject) {
                 return (
                   <DropzoneContent display={!uploadedImage}>
