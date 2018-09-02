@@ -38,7 +38,11 @@ const DownloadLink = styled(Link).attrs({
   hidden: props => props.hidden,
   href: props => props.href,
   download: "cropped.png"
-})``;
+})`
+  &:hover {
+    background-color: gold;
+  }
+`;
 
 const CroppiePopup = ({ onClose, croppedImage }) => (
   <StyledPopup open={croppedImage !== null} onClose={onClose}>
@@ -49,7 +53,7 @@ const CroppiePopup = ({ onClose, croppedImage }) => (
           <BackgroundImage src={croppedImage} ratio={1 / 2} />
         </Card>
         <ActionContainer>
-          <DownloadLink my={1} hidden={!croppedImage} href={croppedImage}>
+          <DownloadLink py={1} hidden={!croppedImage} href={croppedImage}>
             Download
           </DownloadLink>
           <Button onClick={() => closePopup()}>Close</Button>
