@@ -75,28 +75,10 @@ const CroppieRoot = styled.div.attrs({
   flex-direction: column;
 `;
 
-// const UploadButton = styled(Input)`
 const UploadButton = styled(Button)`
   ${getDefaultFontFamily};
 `;
 
-// const dropzoneStyle = css`
-//   width: 90%;
-//   height: 90%;
-//   margin-top: 1em;
-
-//   border: 5px dashed black;
-//   display: ${props => (props.show ? "flex" : "hidden")};
-//   align-items: center;
-//   justify-content: center;
-// `;
-
-// const acceptStyle = css`
-//   color: hsl(120, 100%, 80%);
-// `;
-// const rejectStyle = css`
-//   color: hsl(360, 100%, 50%);
-// `;
 const dropzoneStyle = {
   width: "90%",
   height: "90%",
