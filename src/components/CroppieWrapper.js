@@ -14,9 +14,8 @@ const croppieOptions = {
   enableResize: true,
   viewport: {
     // Dev.to recommends 1000x420
-    // But Croppie is off by 4px
-    width: 996,
-    height: 416,
+    width: 1000,
+    height: 420,
     type: "square"
   }
 };
