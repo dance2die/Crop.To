@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 import styled, { injectGlobal, ThemeProvider } from "styled-components";
-import { Box, Input, Provider } from "rebass-next";
+import { Box, Input } from "rebass-next";
 
 import "./styles.css";
 
-import { theme } from "./theme";
+import { theme, getDefaultFontFamily } from "./theme";
 import Title from "./components/Title";
 import Credit from "./components/Credit";
 import CroppieWrapper from "./components/CroppieWrapper";
@@ -26,14 +26,14 @@ injectGlobal`
 `;
 
 const AppContainer = styled.div`
+  // prettier-ignore
   min-height: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   // https://www.styled-components.com/docs/advanced#function-themes
-  font-family: ${props => props.theme.fontFamily};
+  ${getDefaultFontFamily};
 
-  // prettier-ignore
   & > div {
     text-align: center;
     color: black;
@@ -66,6 +66,10 @@ const CroppieRoot = styled.div.attrs({
 })`
   display: flex;
   flex-direction: column;
+`;
+
+const UploadButton = styled(Input)`
+  ${getDefaultFontFamily};
 `;
 
 class App extends Component {
@@ -105,7 +109,7 @@ class App extends Component {
           <CroppieRoot id="croppie-root" innerRef={this.croppie} />
           <CroppieWrapper parent={this.croppie} image={uploadedImage} />
 
-          <Input
+          <UploadButton
             fontFamily="sans"
             type="file"
             accept="image/*"

@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { Box } from "rebass-next";
+import { getDefaultFontFamily } from "../theme";
 
 const TitleContainer = styled(Box)`
-  font-family: ${props => props.theme.fontFamily};
+  ${getDefaultFontFamily};
   color: white;
 `;
 

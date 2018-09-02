@@ -1,8 +1,11 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Croppie } from "croppie";
-import styled from "styled-components";
-import Popup from "reactjs-popup";
 import { Button } from "rebass-next";
+
+import CroppiePopup from "./Popup";
+
+import { getDefaultFontFamily } from "../theme";
 
 const croppieOptions = {
   showZoomer: true,
@@ -18,39 +21,18 @@ const croppieOptions = {
   }
 };
 
-const StyledPopup = styled(Popup).attrs({
-  modal: true,
-  open: props => props.open,
-  onClose: props => props.onClose
-})``;
-
-const PopupContent = styled.div.attrs({
-  className: "popup-content"
-})`
-  width: 100%;
-`;
-
-const CroppedImageContainer = styled.div`
-  position: relative;
-  display: inline-block;
-`;
-
-const CroppedImage = styled.img`
-  width: 40vw;
-`;
-
 class CroppieWrapper extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    croppedImage: null
+  };
+  // To check if we need to rebind Croppie after cropping.
+  // This is required for Croppie not being a React component
+  currentImage = null;
 
-    this.state = {
-      croppedImage: null
-    };
-
-    // To check if we need to rebind Croppie after cropping.
-    // This is required for Croppie not being a React component
-    this.currentImage = null;
-  }
+  static propTypes = {
+    parent: PropTypes.object,
+    image: PropTypes.string
+  };
 
   componentDidMount() {
     this.croppie = new Croppie(this.props.parent.current, croppieOptions);
@@ -85,31 +67,7 @@ class CroppieWrapper extends Component {
         <Button type="button" onClick={this.onCrop} className="button">
           Croppp!
         </Button>
-        <StyledPopup modal open={croppedImage !== null} onClose={this.onClose}>
-          {close => (
-            <div className="modal">
-              <a className="close" onClick={close}>
-                &times;
-              </a>
-              <div className="header"> Modal Title </div>
-              <PopupContent>
-                <CroppedImage src={croppedImage} alt="cropped from croppie" />
-              </PopupContent>
-              <div className="actions">
-                <a
-                  hidden={!croppedImage}
-                  href={croppedImage}
-                  download="cropped.png"
-                >
-                  Download
-                </a>
-                <button className="button" onClick={() => close()}>
-                  Close
-                </button>
-              </div>
-            </div>
-          )}
-        </StyledPopup>
+        <CroppiePopup onClose={this.onClose} croppedImage={croppedImage} />
       </div>
     );
   }
