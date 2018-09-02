@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 import styled, { injectGlobal } from "styled-components";
+import { Input } from "rebass-next";
 
 import "./styles.css";
 
@@ -66,7 +67,6 @@ class App extends Component {
     uploadedImage: null
   };
 
-  file = React.createRef();
   img = React.createRef();
   croppie = React.createRef();
 
@@ -75,8 +75,11 @@ class App extends Component {
   }
 
   onFileUpload = e => {
+    // e.persist();
+    // console.log(`onFileUpload.e.target`, e.target.files);
+
     const reader = new FileReader();
-    const file = this.file.current.files[0];
+    const file = e.target.files[0];
     reader.readAsDataURL(file);
 
     reader.onload = () => {
@@ -99,11 +102,12 @@ class App extends Component {
           <CroppieRoot id="croppie-root" innerRef={this.croppie} />
           <CroppieWrapper parent={this.croppie} image={uploadedImage} />
 
-          <input
+          <Input
             type="file"
             accept="image/*"
             id="files"
-            ref={this.file}
+            width="auto"
+            ml="8em"
             onChange={this.onFileUpload}
           />
         </Content>

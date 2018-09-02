@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Croppie } from "croppie";
 import styled from "styled-components";
 import Popup from "reactjs-popup";
+import { Button } from "rebass-next";
 
 const croppieOptions = {
   showZoomer: true,
@@ -15,18 +16,13 @@ const croppieOptions = {
     height: 416,
     type: "square"
   }
-  // ,
-  // boundary: {
-  //   height: "75vh"
-  // }
 };
 
 const StyledPopup = styled(Popup).attrs({
   modal: true,
   open: props => props.open,
   onClose: props => props.onClose
-})`
-`;
+})``;
 
 const PopupContent = styled.div.attrs({
   className: "popup-content"
@@ -86,9 +82,9 @@ class CroppieWrapper extends Component {
 
     return (
       <div>
-        <button type="button" onClick={this.onCrop} className="button">
+        <Button type="button" onClick={this.onCrop} className="button">
           Croppp!
-        </button>
+        </Button>
         <StyledPopup modal open={croppedImage !== null} onClose={this.onClose}>
           {close => (
             <div className="modal">
