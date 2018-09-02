@@ -80,29 +80,34 @@ const UploadButton = styled(Button)`
   ${getDefaultFontFamily};
 `;
 
-// const dropZoneStyle = css`
-//   width: 100%;
-//   height: 100%;
+const dropZoneCSS = css`
+  width: 90%;
+  height: 90%;
+  margin-top: 1em;
 
-//   border: 1px dotted red;
-//   border: 5px dashed black;
-//   display: ${props => (props.show ? "flex" : "hidden")};
-//   align-items: center;
-//   justify-content: center;
-// `;
+  border: 1px dotted red;
+  border: 5px dashed black;
+  display: ${props => (props.show ? "flex" : "hidden")};
+  align-items: center;
+  justify-content: center;
+`;
 
-const dropZoneStyle = {
-  width: "90%",
-  height: "90%",
-  marginTop: "1em",
+// const dropZoneStyle = {
+//   width: "90%",
+//   height: "90%",
+//   marginTop: "1em",
 
-  border: "5px dashed black",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center"
-};
+//   border: "5px dashed black",
+//   display: "flex",
+//   alignItems: "center",
+//   justifyContent: "center"
+// };
 
-const DropZoneContent = styled.p`
+const StyledDropzone = styled(Dropzone)`
+  ${dropZoneCSS};
+`;
+
+const DropzoneContent = styled.p`
   font-size: 2em;
   ${getDefaultFontFamily};
 `;
@@ -150,20 +155,17 @@ class App extends Component {
             innerRef={this.croppie}
           />
           <CroppieWrapper parent={this.croppie} image={uploadedImage} />
-          <Dropzone
-            style={dropZoneStyle}
-            // show={!uploadedImage}
+          <StyledDropzone
+            show={!uploadedImage}
             accept="image/*"
             hidden={uploadedImage}
-            ref={node => {
-              this.dropzone = node;
-            }}
+            innerRef={node => (this.dropzone = node)}
             onDrop={(accepted, rejected) => {
               this.onFileUpload(accepted);
             }}
           >
-            <DropZoneContent>Drop files here</DropZoneContent>
-          </Dropzone>
+            <DropzoneContent>Drop files here</DropzoneContent>
+          </StyledDropzone>
 
           <UploadButton
             type="button"
