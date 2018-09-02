@@ -3,8 +3,6 @@ import ReactDOM from "react-dom";
 import styled, { injectGlobal, ThemeProvider } from "styled-components";
 import { Box, Input } from "rebass-next";
 
-import "./styles.css";
-
 import { theme, getDefaultFontFamily } from "./theme";
 import Title from "./components/Title";
 import Credit from "./components/Credit";
