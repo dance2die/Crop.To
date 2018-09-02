@@ -59,7 +59,7 @@ class CroppieWrapper extends Component {
 
     if (image !== this.currentImage) {
       this.currentImage = image;
-      this.croppie.bind({ url: image });
+      this.croppie.bind({ url: image, zoom: "0%" });
     }
 
     return (

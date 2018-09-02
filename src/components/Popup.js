@@ -6,15 +6,6 @@ import { Subhead, Card, Button, Box, Link, Image } from "rebass-next";
 
 import { getDefaultFontFamily, getFlexColumnDirection } from "../theme";
 
-// const PopupContent = styled.div`
-//   ${getDefaultFontFamily};
-// `;
-
-// const CroppedImageContainer = styled.div`
-//   position: relative;
-//   display: inline-block;
-// `;
-
 const StyledPopup = styled(Popup).attrs({
   modal: true,
   open: props => props.open,
