@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const CreditContainer = styled.div`
+  font-family: ${props => props.theme.fontFamily};
   font-size: 0.8rem;
 `;
 

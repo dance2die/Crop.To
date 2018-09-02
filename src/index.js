@@ -1,15 +1,18 @@
 import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
-import styled, { injectGlobal } from "styled-components";
-import { Box, Input } from "rebass-next";
+import styled, { injectGlobal, ThemeProvider } from "styled-components";
+import { Box, Input, Provider } from "rebass-next";
 
 import "./styles.css";
 
+import { theme } from "./theme";
 import Title from "./components/Title";
 import Credit from "./components/Credit";
 import CroppieWrapper from "./components/CroppieWrapper";
 
 injectGlobal`
+  @import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono');
+
   * {
     box-sizing: border-box;
     padding: 0;
@@ -18,6 +21,7 @@ injectGlobal`
 
   html, body, #app-root {
     height: 100%;
+    font-family: 'Roboto', sans-serif;
   }
 `;
 
@@ -26,6 +30,8 @@ const AppContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  // https://www.styled-components.com/docs/advanced#function-themes
+  font-family: ${props => props.theme.fontFamily};
 
   // prettier-ignore
   & > div {
@@ -100,6 +106,7 @@ class App extends Component {
           <CroppieWrapper parent={this.croppie} image={uploadedImage} />
 
           <Input
+            fontFamily="sans"
             type="file"
             accept="image/*"
             id="files"
@@ -116,5 +123,11 @@ class App extends Component {
   }
 }
 
+const StyledApp = () => (
+  <ThemeProvider theme={theme}>
+    <App />
+  </ThemeProvider>
+);
+
 const rootElement = document.getElementById("app-root");
-ReactDOM.render(<App />, rootElement);
+ReactDOM.render(<StyledApp />, rootElement);
