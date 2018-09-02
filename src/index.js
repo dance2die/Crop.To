@@ -170,6 +170,7 @@ class App extends Component {
             acceptStyle={acceptStyle}
             rejectStyle={rejectStyle}
             accept="image/*"
+            multiple={false}
             ref={node => (this.dropzone = node)}
             onDrop={(accepted, rejected) => {
               if (rejected && rejected.length > 0) return false;
