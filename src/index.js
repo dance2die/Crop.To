@@ -9,8 +9,6 @@ import Credit from "./components/Credit";
 import CroppieWrapper from "./components/CroppieWrapper";
 
 injectGlobal`
-  // @import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono');
-
   * {
     box-sizing: border-box;
     padding: 0;
