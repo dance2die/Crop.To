@@ -6,7 +6,7 @@ const CreditContainer = styled.div`
   font-size: 0.8rem;
 `;
 
-const CreditLink = styled.a`
+const CreditLink = styled.a.attrs({ target: "_blank" })`
   text-decoration: none;
   color: coral;
   margin-left: 0.3em;
