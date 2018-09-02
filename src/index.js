@@ -80,36 +80,45 @@ const UploadButton = styled(Button)`
   ${getDefaultFontFamily};
 `;
 
-const dropZoneCSS = css`
-  width: 90%;
-  height: 90%;
-  margin-top: 1em;
+// const dropzoneStyle = css`
+//   width: 90%;
+//   height: 90%;
+//   margin-top: 1em;
 
-  border: 1px dotted red;
-  border: 5px dashed black;
-  display: ${props => (props.show ? "flex" : "hidden")};
-  align-items: center;
-  justify-content: center;
-`;
+//   border: 5px dashed black;
+//   display: ${props => (props.show ? "flex" : "hidden")};
+//   align-items: center;
+//   justify-content: center;
+// `;
 
-// const dropZoneStyle = {
-//   width: "90%",
-//   height: "90%",
-//   marginTop: "1em",
+// const acceptStyle = css`
+//   color: hsl(120, 100%, 80%);
+// `;
+// const rejectStyle = css`
+//   color: hsl(360, 100%, 50%);
+// `;
+const dropzoneStyle = {
+  width: "90%",
+  height: "90%",
+  marginTop: "1em",
+  border: "5px dashed black",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center"
+};
 
-//   border: "5px dashed black",
-//   display: "flex",
-//   alignItems: "center",
-//   justifyContent: "center"
-// };
+const hiddenDropzonStyle = {
+  width: 0,
+  height: 0
+};
 
-const StyledDropzone = styled(Dropzone)`
-  ${dropZoneCSS};
-`;
+const acceptStyle = { color: "hsl(120, 100%, 80%)" };
+const rejectStyle = { color: "hsl(360, 100%, 50%)" };
 
 const DropzoneContent = styled.p`
   font-size: 2em;
   ${getDefaultFontFamily};
+  display: ${props => (props.display ? "block" : "none")}
 `;
 
 class App extends Component {
@@ -155,17 +164,41 @@ class App extends Component {
             innerRef={this.croppie}
           />
           <CroppieWrapper parent={this.croppie} image={uploadedImage} />
-          <StyledDropzone
-            show={!uploadedImage}
+
+          <Dropzone
+            style={uploadedImage ? hiddenDropzonStyle : dropzoneStyle}
+            acceptStyle={acceptStyle}
+            rejectStyle={rejectStyle}
             accept="image/*"
-            hidden={uploadedImage}
-            innerRef={node => (this.dropzone = node)}
+            ref={node => (this.dropzone = node)}
             onDrop={(accepted, rejected) => {
+              if (rejected && rejected.length > 0) return false;
               this.onFileUpload(accepted);
             }}
           >
-            <DropzoneContent>Drop files here</DropzoneContent>
-          </StyledDropzone>
+            {({ isDragActive, isDragReject, acceptedFiles, rejectedFiles }) => {
+              if (isDragReject) {
+                return (
+                  <DropzoneContent display={!uploadedImage}>
+                    You can't drop this!
+                  </DropzoneContent>
+                );
+              }
+              if (isDragActive) {
+                return (
+                  <DropzoneContent display={!uploadedImage}>
+                    Drop it now!
+                  </DropzoneContent>
+                );
+              }
+
+              return (
+                <DropzoneContent display={!uploadedImage}>
+                  Drop files here
+                </DropzoneContent>
+              );
+            }}
+          </Dropzone>
 
           <UploadButton
             type="button"
