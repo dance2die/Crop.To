@@ -1,130 +1,65 @@
 import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
-import { Croppie } from "croppie";
-import styled from "styled-components";
-import Popup from "reactjs-popup";
+import styled, { injectGlobal } from "styled-components";
 
 import "./styles.css";
 
+import Title from "./components/Title";
 import Credit from "./components/Credit";
+import CroppieWrapper from "./components/CroppieWrapper";
 
-const croppieOptions = {
-  showZoomer: true,
-  enableOrientation: true,
-  mouseWheelZoom: "ctrl",
-  enableResize: true,
-  viewport: {
-    // Dev.to recommends 1000x420
-    // But Croppie is off by 4px
-    width: 996,
-    height: 416,
-    type: "square"
-  },
-  boundary: {
-    width: "99vw",
-    height: "75vh"
+injectGlobal`
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
   }
-};
 
-const StyledPopup = styled(Popup).attrs({
-  modal: true,
-  open: props => props.open,
-  onClose: props => props.onClose
+  html, body, #app-root {
+    height: 100%;
+  }
+`;
+
+const AppContainer = styled.div`
+  min-height: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  // prettier-ignore
+  & > header, section, footer {
+    text-align: center;
+    color: white;
+    font-family: sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+`;
+
+const Header = styled.header`
+  align-content: stretch;
+  background: blue;
+  height: 60px;
+`;
+const Content = styled.section`
+  text-align: center;
+  background: red;
+  flex: 1;
+`;
+const Footer = styled.footer`
+  align-content: stretch;
+  background: gold;
+  height: 60px;
+`;
+
+const CroppieRoot = styled.div.attrs({
+  ref: props => props.ref
 })`
+  display: flex;
+  flex-direction: column;
 `;
-
-const PopupContent = styled.div.attrs({
-  className: "popup-content"
-})`
-  width: 100%;
-`;
-
-const CroppedImageContainer = styled.div`
-  position: relative;
-  display: inline-block;
-`;
-
-const CroppedImage = styled.img`
-  width: 50vh;
-`;
-
-class CroppieContainer extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      croppedImage: null
-    };
-
-    // To check if we need to rebind Croppie after cropping.
-    // This is required for Croppie not being a React component
-    this.currentImage = null;
-  }
-
-  componentDidMount() {
-    this.croppie = new Croppie(this.props.parent.current, croppieOptions);
-  }
-
-  componentWillUnmount() {
-    delete this.croppie;
-  }
-
-  onCrop = () => {
-    this.croppie.result("base64").then(croppedImage => {
-      this.setState({ croppedImage });
-    });
-  };
-
-  onClose = () => {
-    this.setState({ croppedImage: null });
-  };
-
-  render() {
-    const { image } = this.props;
-    const { croppedImage, currentImage } = this.state;
-    if (!image) return null;
-
-    if (image !== this.currentImage) {
-      this.currentImage = image;
-      this.croppie.bind({ url: image });
-    }
-
-    return (
-      <div>
-        <button type="button" onClick={this.onCrop} className="button">
-          Croppp!
-        </button>
-        <StyledPopup modal open={croppedImage !== null} onClose={this.onClose}>
-          {close => (
-            <div className="modal">
-              <a className="close" onClick={close}>
-                &times;
-              </a>
-              <div className="header"> Modal Title </div>
-              <PopupContent>
-                <CroppedImageContainer>
-                  <CroppedImage src={croppedImage} alt="cropped from croppie" />
-                </CroppedImageContainer>
-              </PopupContent>
-              <div className="actions">
-                <a
-                  hidden={!croppedImage}
-                  href={croppedImage}
-                  download="cropped.png"
-                >
-                  Download
-                </a>
-                <button className="button" onClick={() => close()}>
-                  Close
-                </button>
-              </div>
-            </div>
-          )}
-        </StyledPopup>
-      </div>
-    );
-  }
-}
 
 class App extends Component {
   state = {
@@ -156,11 +91,13 @@ class App extends Component {
     const { uploadedImage } = this.state;
 
     return (
-      <div className="App">
-        <head />
-        <section>
-          <div id="croppie-root" ref={this.croppie} />
-          <CroppieContainer parent={this.croppie} image={uploadedImage} />
+      <AppContainer>
+        <Header>
+          <Title />
+        </Header>
+        <Content>
+          <CroppieRoot id="croppie-root" innerRef={this.croppie} />
+          <CroppieWrapper parent={this.croppie} image={uploadedImage} />
 
           <input
             type="file"
@@ -169,11 +106,11 @@ class App extends Component {
             ref={this.file}
             onChange={this.onFileUpload}
           />
-        </section>
-        <footer>
+        </Content>
+        <Footer>
           <Credit />
-        </footer>
-      </div>
+        </Footer>
+      </AppContainer>
     );
   }
 }

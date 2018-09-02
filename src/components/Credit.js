@@ -1,5 +1,11 @@
-import React, { Fragment } from "react";
+import React from "react";
 import styled from "styled-components";
+
+const CreditContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`;
 
 const CreditLink = styled.a`
   text-decoration: none;
@@ -12,10 +18,10 @@ const CreditEmoji = styled.span`
 `;
 
 const Credit = () => (
-  <Fragment>
+  <CreditContainer>
     Made with <CreditEmoji>❤</CreditEmoji> by
     <CreditLink href="https://sungkim.co/">Sung Kim</CreditLink>
-  </Fragment>
+  </CreditContainer>
 );
 
 export default Credit;
