@@ -29,7 +29,7 @@ const AppContainer = styled.div`
   // prettier-ignore
   & > header, section, footer {
     text-align: center;
-    color: white;
+    color: black;
     font-family: sans-serif;
 
     display: flex;
@@ -39,19 +39,19 @@ const AppContainer = styled.div`
 `;
 
 const Header = styled.header`
-  align-content: stretch;
   background: blue;
-  height: 60px;
+  align-content: stretch;
+  height: 3em;
 `;
 const Content = styled.section`
-  text-align: center;
   background: red;
+  align-items: center;
   flex: 1;
 `;
 const Footer = styled.footer`
-  align-content: stretch;
   background: gold;
-  height: 60px;
+  align-content: stretch;
+  height: 3em;
 `;
 
 const CroppieRoot = styled.div.attrs({
