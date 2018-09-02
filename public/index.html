@@ -20,9 +20,8 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-	<link rel="stylesheet" href="%PUBLIC_URL%/index.css" />
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" rel="preload">
-	<link rel="stylesheet" rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.min.css" />
+	<!-- <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" rel="preload">
+	<link rel="stylesheet" rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.min.css" /> -->
 	<title>React App</title>
 </head>
 
@@ -32,6 +31,9 @@
 	</noscript>
 	<div id="app-root"></div>
 
+	<link async defer rel="stylesheet" href="%PUBLIC_URL%/index.css" />
+	<link async defer rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+	<link async defer rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.min.css" />
 </body>
 
 </html>
