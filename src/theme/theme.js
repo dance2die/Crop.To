@@ -1,7 +1,4 @@
 export const theme = {
-  // fonts: {
-  //   serif: "athelas, georgia, times, serif",
-  //   sansSerif: "Roboto, -apple-system, helvetica, ubuntu, arial, sans-serif"
-  // }
+  titleFontFamily: "'Lily Script One', cursive, Roboto, sans-serif",
   fontFamily: "Roboto, -apple-system, helvetica, ubuntu, arial, sans-serif"
 };

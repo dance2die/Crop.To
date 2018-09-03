@@ -1,15 +1,33 @@
 import React from "react";
-import styled from "styled-components";
-import { Heading } from "rebass-next";
-import { getDefaultFontFamily } from "../theme";
+import styled, { ThemeProvider } from "styled-components";
+import { Heading, Subhead } from "rebass-next";
 
-const TitleContainer = styled(Heading)`
+import {
+  theme,
+  getDefaultFontFamily,
+  getTitleFontFamily,
+  getFlexColumnDirection
+} from "../theme";
+
+const TitleContainer = styled.div`
+  ${getFlexColumnDirection};
+`;
+
+const StyledHeading = styled(Heading)`
+  ${getTitleFontFamily};
+  color: white;
+`;
+
+const StyledSubhead = styled(Subhead)`
   ${getDefaultFontFamily};
   color: white;
 `;
 
 const Title = () => (
-  <TitleContainer fontSize={3}>Crop Image 1000x420</TitleContainer>
+  <TitleContainer>
+    <StyledHeading fontSize={3}>Crop.to</StyledHeading>
+    <StyledSubhead fontSize={1}>Crop an image by 1000x420</StyledSubhead>
+  </TitleContainer>
 );
 
 export default Title;
