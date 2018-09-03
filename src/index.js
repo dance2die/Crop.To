@@ -44,6 +44,7 @@ const AppContainer = styled.div`
 
 const Header = styled(Box)`
   align-content: stretch;
+  align-items: center;
   height: 5.5em;
 
   background: #396afc; /* fallback for old browsers */

@@ -11,6 +11,14 @@ import {
 
 const TitleContainer = styled.div`
   ${getFlexColumnDirection};
+  padding: 0.5em 2em;
+  border: 0.23em dashed white;
+  background-color: hotpink
+
+  &:before {
+    content: '✂️';
+    margin-top: -1.4em;
+  }
 `;
 
 const StyledHeading = styled(Heading)`
