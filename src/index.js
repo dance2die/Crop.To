@@ -186,14 +186,14 @@ class App extends Component {
 
               return (
                 <DropzoneContent display={!uploadedImage}>
-                  Drop files here
+                  📥 Drop Here
                 </DropzoneContent>
               );
             }}
           </Dropzone>
 
           <UploadButton onClick={() => this.dropzone.open()}>
-            Open File Dialog
+            ⬆ Upload an Image
           </UploadButton>
         </Content>
         <Footer>
