@@ -53,7 +53,7 @@ const CroppiePopup = ({ onClose, croppedImage }) => (
         <CroppedImage src={croppedImage} ratio={1 / 2} />
         <ActionContainer>
           <DownloadLink py={1} hidden={!croppedImage} href={croppedImage}>
-            Download
+            ⬇ Download
           </DownloadLink>
           <Button onClick={() => closePopup()}>Close</Button>
         </ActionContainer>

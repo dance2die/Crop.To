@@ -62,7 +62,7 @@ class CroppieWrapper extends Component {
     return (
       <div>
         <Button type="button" onClick={this.onCrop} className="button">
-          Croppp!
+          ✂ Croppp!
         </Button>
         <CroppiePopup onClose={this.onClose} croppedImage={croppedImage} />
       </div>
