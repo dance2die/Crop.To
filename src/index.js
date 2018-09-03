@@ -173,14 +173,14 @@ class App extends Component {
               if (isDragReject) {
                 return (
                   <DropzoneContent display={!uploadedImage}>
-                    You can't drop this!
+                    🙅 Can't drop this
                   </DropzoneContent>
                 );
               }
               if (isDragActive) {
                 return (
                   <DropzoneContent display={!uploadedImage}>
-                    Drop it now!
+                    🎶 Drop the Beat
                   </DropzoneContent>
                 );
               }
