@@ -15,18 +15,23 @@ const TitleContainer = styled.div`
 
 const StyledHeading = styled(Heading)`
   ${getTitleFontFamily};
+  letter-spacing: 0.325rem;
   color: white;
 `;
 
 const StyledSubhead = styled(Subhead)`
   ${getDefaultFontFamily};
+  letter-spacing: 0.15rem;
+  word-spacing: 0.15rem;
   color: white;
 `;
 
 const Title = () => (
   <TitleContainer>
     <StyledHeading fontSize={3}>Crop.to</StyledHeading>
-    <StyledSubhead fontSize={1}>Crop an image by 1000x420</StyledSubhead>
+    <StyledSubhead fontSize={1} mt={1}>
+      Crop an image by 1000x420
+    </StyledSubhead>
   </TitleContainer>
 );
 
