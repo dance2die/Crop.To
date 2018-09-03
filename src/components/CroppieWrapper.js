@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Croppie } from "croppie";
 import { Button } from "rebass-next";
+// import styled from "styled-components";
 
 import CroppiePopup from "./Popup";
 

@@ -1,6 +1,11 @@
 import React, { createRef, Component } from "react";
 import ReactDOM from "react-dom";
-import styled, { injectGlobal, ThemeProvider } from "styled-components";
+import styled, {
+  css,
+  system,
+  injectGlobal,
+  ThemeProvider
+} from "styled-components";
 import { Box, Button } from "rebass-next";
 import Dropzone from "react-dropzone";
 
@@ -60,10 +65,12 @@ const Header = styled(Box)`
     #396afc
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 `;
+
 const Content = styled(Box)`
   align-items: center;
   flex: 1;
 `;
+
 const Footer = styled(Box)`
   background: gold;
   align-content: stretch;
@@ -116,11 +123,13 @@ const DropzoneContent = styled.p`
 
 class App extends Component {
   state = {
-    uploadedImage: null
+    uploadedImage: null,
+    contentScale: 1
   };
 
   img = createRef();
   croppie = createRef();
+  croppieWrapper = createRef();
   dropzone = createRef();
 
   componentDidCatch(err, info) {
@@ -142,17 +151,51 @@ class App extends Component {
     };
   };
 
+  componentDidMount() {
+    window.addEventListener("resize", this.onResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.onResize);
+  }
+
+  onResize = e => {
+    // const { current } = this.croppie;
+    let { current } = this.croppieWrapper;
+    current = document.getElementById("content");
+
+    const {
+      width: parentWidth,
+      height: parentHeight
+    } = current.parentElement.getBoundingClientRect();
+    const { width, height } = current.getBoundingClientRect();
+
+    const contentScale = Math.min(width / parentWidth, height / parentHeight);
+
+    console.log(
+      `onResize`,
+      contentScale
+      // parentWidth,
+      // parentHeight,
+      // width,
+      // height
+    );
+    this.setState({ contentScale });
+  };
+
   render() {
-    const { uploadedImage } = this.state;
+    const { uploadedImage, contentScale } = this.state;
 
     return (
       <AppContainer>
         <Header>
           <Title />
         </Header>
-        <Content>
+        <Content id="content">
           <CroppieRoot
-            style={{ display: uploadedImage ? "inherit" : "none" }}
+            style={{
+              display: uploadedImage ? "inherit" : "none"
+            }}
             id="croppie-root"
             innerRef={this.croppie}
           />
