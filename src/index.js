@@ -1,11 +1,12 @@
 import React, { createRef, Component } from "react";
 import ReactDOM from "react-dom";
 import styled, { injectGlobal, ThemeProvider } from "styled-components";
-import { Box, Input, Button } from "rebass-next";
+import { Box, Button } from "rebass-next";
 import Dropzone from "react-dropzone";
 
 import { theme, getDefaultFontFamily } from "./theme";
 import Title from "./components/Title";
+import Emoji from "./components/Emoji";
 import Credit from "./components/Credit";
 import CroppieWrapper from "./components/CroppieWrapper";
 
@@ -173,21 +174,23 @@ class App extends Component {
               if (isDragReject) {
                 return (
                   <DropzoneContent display={!uploadedImage}>
-                    🙅 Can't drop this
+                    <Emoji ariaLabel="Woman Gesturing No">🙅</Emoji> Can't drop
+                    this
                   </DropzoneContent>
                 );
               }
               if (isDragActive) {
                 return (
                   <DropzoneContent display={!uploadedImage}>
-                    🎶 Drop the Beat
+                    <Emoji ariaLabel="Multiple Music Notes">🎶</Emoji> Drop the
+                    Beat
                   </DropzoneContent>
                 );
               }
 
               return (
                 <DropzoneContent display={!uploadedImage}>
-                  📥 Drop Here
+                  <Emoji ariaLabel="Drop Box">📥</Emoji> Drop Here
                 </DropzoneContent>
               );
             }}

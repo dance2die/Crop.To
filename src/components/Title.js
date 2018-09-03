@@ -1,9 +1,8 @@
 import React from "react";
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import { Heading, Subhead } from "rebass-next";
 
 import {
-  theme,
   getDefaultFontFamily,
   getTitleFontFamily,
   getFlexColumnDirection
